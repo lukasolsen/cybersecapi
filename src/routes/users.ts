@@ -1,18 +1,25 @@
-import { NextFunction, Request, Response, Router } from 'express';
+import { NextFunction, Request, Response, Router } from "express";
+import { fetchUserByEmail } from "../controller/user.controller";
 
 const router = Router();
 
-router.post('/login', (req: Request, res: Response, next: NextFunction) => {
-    try {
-        const { username, password } = req.body;
-        if (username === process.env.ADMIN_USERNAME && password === process.env.ADMIN_PASSWORD) {
-            res.status(200).json({ message: 'Login successful' });
-        } else {
-            res.status(401).json({ message: 'Invalid credentials' });
-        }
-    } catch(err) {
-        next(err);
+router.post("/login", (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).send("Email and password are required");
     }
+
+    const user = fetchUserByEmail(email);
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+
+    
+  } catch (err) {
+    next(err);
+  }
 });
 
 export default router;
