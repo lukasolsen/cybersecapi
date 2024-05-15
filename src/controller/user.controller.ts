@@ -1,10 +1,19 @@
 import { Role } from "@prisma/client";
 import prisma from "../data-source";
 
+/**
+ * Fetches all users from the database
+ * @returns
+ */
 export const fetchUsers = async () => {
   return await prisma.user.findMany();
 };
 
+/**
+ * Fetches a user by id
+ * @param id
+ * @returns
+ */
 export const fetchUser = async (id: number) => {
   return await prisma.user.findUnique({
     where: {
@@ -13,6 +22,11 @@ export const fetchUser = async (id: number) => {
   });
 };
 
+/**
+ * Creates a new user
+ * @param data
+ * @returns
+ */
 export const createUser = async (data: {
   email: string;
   password: string;
@@ -25,6 +39,12 @@ export const createUser = async (data: {
   });
 };
 
+/**
+ * Updates a user by id
+ * @param id
+ * @param data
+ * @returns
+ */
 export const updateUser = async (id: number, data: any) => {
   return await prisma.user.update({
     where: {
@@ -34,6 +54,11 @@ export const updateUser = async (id: number, data: any) => {
   });
 };
 
+/**
+ * Deletes a user by id
+ * @param id
+ * @returns
+ */
 export const deleteUser = async (id: number) => {
   return await prisma.user.delete({
     where: {
@@ -42,6 +67,11 @@ export const deleteUser = async (id: number) => {
   });
 };
 
+/**
+ * Fetches a user by email
+ * @param email
+ * @returns
+ */
 export const fetchUserByEmail = async (email: string) => {
   return await prisma.user.findUnique({
     where: {
@@ -50,6 +80,11 @@ export const fetchUserByEmail = async (email: string) => {
   });
 };
 
+/**
+ * Fetches a user by username
+ * @param username
+ * @returns
+ */
 export const fetchUserByUsername = async (username: string) => {
   return await prisma.user.findUnique({
     where: {
