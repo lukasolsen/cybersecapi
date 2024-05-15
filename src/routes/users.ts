@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { fetchUserByEmail } from "../controller/user.controller";
-import { comparePassword, generateJWT } from "../lib/security";
+import { comparePassword, generateJWT, sanitizeUser } from "../lib/security";
 
 const router = Router();
 
@@ -42,7 +42,7 @@ router.get("/me", async (req: Request, res: Response, next: NextFunction) => {
       return res.status(401).send("Unauthorized");
     }
 
-    res.status(200).send(req.user);
+    res.status(200).send(sanitizeUser(req.user));
   } catch (err) {
     next(err);
   }

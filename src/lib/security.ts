@@ -1,3 +1,4 @@
+import { User } from "@prisma/client";
 import crypto from "crypto";
 import jwt from "jsonwebtoken";
 
@@ -22,4 +23,10 @@ export const generateJWT = async (id: number) => {
       expiresIn: process.env.JWT_EXPIRES_IN,
     }
   );
+};
+
+export const sanitizeUser = (user: User) => {
+  const { id, password, ...sanitizedUser } = user;
+
+  return sanitizedUser;
 };
