@@ -9,6 +9,7 @@ export const userMiddleware = async (
   const excludedRoutes: RegExp[] = [
     /^\/api\/v1\/users\/login$/,
     /^\/api\/v1\/users\/register$/,
+    /^\/api\/v1\/messages\/send$/,
   ];
 
   if (excludedRoutes.some((route) => route.test(req.path))) return next();
