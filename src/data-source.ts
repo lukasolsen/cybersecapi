@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import consola from "consola";
+import { hashPassword } from "./lib/security";
 
 const prisma = new PrismaClient();
 
@@ -16,10 +17,11 @@ prisma
 export const addRequiredFields = async () => {
   const users = await prisma.user.findMany();
   if (users.length === 0) {
+    const adminPass = await hashPassword("root");
     await prisma.user.create({
       data: {
         email: "admin_cybersec@gmail.com",
-        password: "root",
+        password: adminPass,
         username: "admin",
         name: "Admin",
         role: "ADMIN",

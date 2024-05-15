@@ -6,8 +6,17 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import Route from "./routes/index";
+import { User } from "@prisma/client";
+import { userMiddleware } from "./middleware/userMiddleware";
 
 const app: Application = express();
+
+declare module "express-serve-static-core" {
+  interface Request {
+    user: User;
+  }
+}
+
 const PORT: number = parseInt(process.env.SERVER_PORT || "3000", 10);
 const HOST = process.env.SERVER_HOST || "localhost";
 
@@ -24,6 +33,8 @@ app.use(
     crossOriginOpenerPolicy: false,
   })
 );
+
+app.use(userMiddleware);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
